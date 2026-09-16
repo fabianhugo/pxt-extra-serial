@@ -5,6 +5,8 @@ info: >-
     Edge Serial adds block-based serial read and write helpers for Rib:bit projects, including line padding, buffer reads, delimiter handling, and serial configuration.
 plugins:
     - ts-to-blocks
+tags:
+    - software
 ---
 
 ## Overview
