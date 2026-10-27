@@ -1,7 +1,7 @@
 // Auto-generated. Do not edit.
 
 
-    declare const enum EdgeSerialPin {
+    declare const enum ExtraSerialPin {
     P0 = 100,  // MICROBIT_ID_IO_P0
     P1 = 101,  // MICROBIT_ID_IO_P1
     P2 = 102,  // MICROBIT_ID_IO_P2
@@ -20,7 +20,7 @@
     }
 
 
-    declare const enum EdgeBaudRate {
+    declare const enum ExtraBaudRate {
     //% block=115200
     BaudRate115200 = 115200,
     //% block=57600

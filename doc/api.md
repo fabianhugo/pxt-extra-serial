@@ -1,15 +1,15 @@
 ---
 layout: layouts/catalog-page
-title: Edge Serial API Index
+title: Extra Serial API Index
 ---
 
 ## API index
 
-This page links to all documented namespaces, classes, and enums for Edge Serial.
+This page links to all documented namespaces, classes, and enums for Extra Serial.
 
 ## Namespaces
 
-- [Edge Serial Namespace](../namespace_edgeserial/)
+- [Extra Serial Namespace](../namespace_extraserial/)
 
 ## Classes
 
@@ -17,5 +17,5 @@ This page links to all documented namespaces, classes, and enums for Edge Serial
 
 ## Enums
 
-- [Edge Serial Pin Enum](../enum_edgeserialpin/)
-- [Edge Baud Rate Enum](../enum_edgebaudrate/)
+- [Extra Serial Pin Enum](../enum_extraserialpin/)
+- [Extra Baud Rate Enum](../enum_extrabaudrate/)

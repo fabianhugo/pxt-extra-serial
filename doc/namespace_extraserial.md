@@ -1,9 +1,9 @@
 ---
 layout: layouts/catalog-page
-title: Edge Serial Namespace
+title: Extra Serial Namespace
 ---
 
-## Namespace `edgeserial`
+## Namespace `extraserial`
 
 Provides serial read/write helpers, event callbacks, and transport configuration calls.
 
@@ -96,16 +96,16 @@ Provides serial read/write helpers, event callbacks, and transport configuration
 ### `redirect(tx, rx, rate)`
 
 - **Parameters:**
-  - `tx`: TX pin from [EdgeSerialPin](../enum_edgeserialpin/).
-  - `rx`: RX pin from [EdgeSerialPin](../enum_edgeserialpin/).
-  - `rate`: Baud rate from [EdgeBaudRate](../enum_edgebaudrate/).
+  - `tx`: TX pin from [ExtraSerialPin](../enum_extraserialpin/).
+  - `rx`: RX pin from [ExtraSerialPin](../enum_extraserialpin/).
+  - `rate`: Baud rate from [ExtraBaudRate](../enum_extrabaudrate/).
 - **Returns:** `void`
 - **Description:** Redirects serial to selected pins and baud rate.
 
 ### `setBaudRate(rate)`
 
 - **Parameters:**
-  - `rate`: Baud rate from [EdgeBaudRate](../enum_edgebaudrate/).
+  - `rate`: Baud rate from [ExtraBaudRate](../enum_extrabaudrate/).
 - **Returns:** `void`
 - **Description:** Sets active baud rate.
 
@@ -125,5 +125,5 @@ Provides serial read/write helpers, event callbacks, and transport configuration
 
 ## Related enums
 
-- [Edge Serial Pin Enum](../enum_edgeserialpin/)
-- [Edge Baud Rate Enum](../enum_edgebaudrate/)
+- [Extra Serial Pin Enum](../enum_extraserialpin/)
+- [Extra Baud Rate Enum](../enum_extrabaudrate/)

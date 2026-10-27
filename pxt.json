@@ -1,5 +1,5 @@
 {
-    "name": "edge-serial",
+    "name": "extra-serial",
     "version": "1.2.3",
     "dependencies": {
         "core": "*",
@@ -8,7 +8,7 @@
     },
     "files": [
         "main.ts",
-        "edge_serial.cpp",
+        "extra_serial.cpp",
         "shims.d.ts",
         "enums.d.ts",
         "README.md"

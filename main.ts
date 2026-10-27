@@ -1,8 +1,8 @@
 /**
  * Reading and writing data over a serial connection.
  */
-//% weight=2 color=#ff2050 icon="\uf287" block="Edge Serial"
-namespace edgeserial {
+//% weight=2 color=#ff2050 icon="\uf287" block="Extra Serial"
+namespace extraserial {
     /**
      * The string used to mark a new line, default is \r\n
      */
@@ -16,19 +16,19 @@ namespace edgeserial {
      */
     //% weight=90
     //% help=serial/write-line blockGap=8
-    //% blockId=edgeserial_writeline block="serial|write line %text"
+    //% blockId=extraserial_writeline block="serial|write line %text"
     //% text.shadowOptions.toString=true
     export function writeLine(text: string): void {
         if (!text) text = "";
-        edgeserial.writeString(text);
+        extraserial.writeString(text);
         // pad data to the 32 byte boundary
         // to ensure apps receive the packet
         if (writeLinePadding > 0) {
             let r = (writeLinePadding - (text.length + NEW_LINE.length) % writeLinePadding) % writeLinePadding;
             for (let i = 0; i < r; ++i)
-                edgeserial.writeString(" ");
+                extraserial.writeString(" ");
         }
-        edgeserial.writeString(NEW_LINE);
+        extraserial.writeString(NEW_LINE);
     }
 
     /**
@@ -36,9 +36,9 @@ namespace edgeserial {
      */
     //% help=serial/write-string
     //% weight=87 blockGap=8
-    //% blockId=edgeserial_writestring block="serial|write string %text"
+    //% blockId=extraserial_writestring block="serial|write string %text"
     //% text.shadowOptions.toString=true
-    //% shim=edgeserial::writeString
+    //% shim=extraserial::writeString
     export function writeString(data: string): void {
         return; // Simulator dummy shim
     }
@@ -50,7 +50,7 @@ namespace edgeserial {
      */
     //% weight=1
     //% help=serial/set-write-line-padding
-    //% blockId=edgeserialWriteNewLinePadding block="serial set write line padding to $length"
+    //% blockId=extraserialWriteNewLinePadding block="serial set write line padding to $length"
     //% advanced=true
     //% length.min=0 length.max=128
     export function setWriteLinePadding(length: number) {
@@ -63,7 +63,7 @@ namespace edgeserial {
      */
     //% help=serial/write-number
     //% weight=89 blockGap=8
-    //% blockId=edgeserial_writenumber block="serial|write number %value"
+    //% blockId=extraserial_writenumber block="serial|write number %value"
     export function writeNumber(value: number): void {
         writeString(value.toString());
     }
@@ -73,7 +73,7 @@ namespace edgeserial {
      */
     //% help=serial/write-numbers
     //% weight=86
-    //% blockId=edgeserial_writenumbers block="serial|write numbers %values"
+    //% blockId=extraserial_writenumbers block="serial|write numbers %values"
     export function writeNumbers(values: number[]): void {
         if (!values) return;
         for (let i = 0; i < values.length; ++i) {
@@ -90,7 +90,7 @@ namespace edgeserial {
      */
     //% weight=88 blockGap=8
     //% help=serial/write-value
-    //% blockId=edgeserial_writevalue block="serial|write value %name|= %value"
+    //% blockId=extraserial_writevalue block="serial|write value %name|= %value"
     export function writeValue(name: string, value: number): void {
         writeLine((name ? name + ":" : "") + value);
     }
@@ -99,16 +99,16 @@ namespace edgeserial {
      * Read a line of text from the serial port.
      */
     //% help=serial/read-line
-    //% blockId=edgeserial_read_line block="serial|read line"
+    //% blockId=extraserial_read_line block="serial|read line"
     //% weight=20 blockGap=8
     export function readLine(): string {
-        return edgeserial.readUntil(delimiters(NEW_LINE_DELIMITER));
+        return extraserial.readUntil(delimiters(NEW_LINE_DELIMITER));
     }
 
     /**
      * Return the corresponding delimiter string
      */
-    //% blockId="edgeserial_delimiter_conv" block="%del"
+    //% blockId="extraserial_delimiter_conv" block="%del"
     //% weight=1 blockHidden=true
     export function delimiters(del: Delimiters): string {
         return String.fromCharCode(del as number);
@@ -118,8 +118,8 @@ namespace edgeserial {
     * Register an event to be fired when one of the delimiter is matched.
     * @param delimiters the characters to match received characters against.
     */
-    //% weight=18 blockId=edgeserial_on_data_received block="serial|on data received %delimiters=edgeserial_delimiter_conv"
-    //% shim=edgeserial::onDataReceived
+    //% weight=18 blockId=extraserial_on_data_received block="serial|on data received %delimiters=extraserial_delimiter_conv"
+    //% shim=extraserial::onDataReceived
     export function onDataReceived(delimiters: string, body: () => void): void { return; }
 
     /**
@@ -127,18 +127,18 @@ namespace edgeserial {
      * @param delimiter text delimiter that separates each text chunk
      */
     //% help=serial/read-until
-    //% blockId=edgeserial_read_until block="serial|read until %delimiter=edgeserial_delimiter_conv"
-    //% weight=19 shim=edgeserial::readUntil
-    //% shim=edgeserial::readUntil
+    //% blockId=extraserial_read_until block="serial|read until %delimiter=extraserial_delimiter_conv"
+    //% weight=19 shim=extraserial::readUntil
+    //% shim=extraserial::readUntil
     export function readUntil(delimiter: string): string { return ""; };
 
     /**
      * Read the buffered received data as a string
      */
     //% help=serial/read-string
-    //% blockId=edgeserial_read_buffer block="serial|read string"
-    //% weight=18 shim=edgeserial::readString
-    //% shim=edgeserial::readString
+    //% blockId=extraserial_read_buffer block="serial|read string"
+    //% weight=18 shim=extraserial::readString
+    //% shim=extraserial::readString
     export function readString(): string { return ""; }
 
     /**
@@ -146,56 +146,56 @@ namespace edgeserial {
      * If length is positive, pauses until enough characters are present.
      * @param length default buffer length
      */
-    //% blockId=edgeserial_readbuffer block="serial|read buffer %length"
-    //% help=serial/read-buffer advanced=true weight=5 shim=edgeserial::readBuffer
-    //% shim=edgeserial::readBuffer
+    //% blockId=extraserial_readbuffer block="serial|read buffer %length"
+    //% help=serial/read-buffer advanced=true weight=5 shim=extraserial::readBuffer
+    //% shim=extraserial::readBuffer
     export function readBuffer(length: number): Buffer { return Buffer.create(0); }
 
     /**
      * Send a buffer through serial connection
      */
-    //% blockId=edgeserial_writebuffer block="serial|write buffer %buffer=edgeserial_readbuffer"
+    //% blockId=extraserial_writebuffer block="serial|write buffer %buffer=extraserial_readbuffer"
     //% help=serial/write-buffer advanced=true weight=6
-    //% shim=edgeserial::writeBuffer
+    //% shim=extraserial::writeBuffer
     export function writeBuffer(buffer: Buffer): void { return; }
 
     /**
      * Set the serial input and output to use pins instead of the USB connection.
-     * @param tx the new transmission pin, eg: EdgeSerialPin.P0
-     * @param rx the new reception pin, eg: EdgeSerialPin.P1
-     * @param rate the new baud rate. eg: EdgeBaudRate.BaudRate115200
+     * @param tx the new transmission pin, eg: ExtraSerialPin.P0
+     * @param rx the new reception pin, eg: ExtraSerialPin.P1
+     * @param rate the new baud rate. eg: ExtraBaudRate.BaudRate115200
      */
     //% weight=10
     //% help=serial/connect
-    //% blockId=edgeserial_redirect block="serial|connect to|TX %tx|RX %rx|at baud rate %rate"
+    //% blockId=extraserial_redirect block="serial|connect to|TX %tx|RX %rx|at baud rate %rate"
     //% blockExternalInputs=1
     //% tx.fieldEditor="gridpicker" tx.fieldOptions.columns=3
     //% tx.fieldOptions.tooltips="false"
     //% rx.fieldEditor="gridpicker" rx.fieldOptions.columns=3
     //% rx.fieldOptions.tooltips="false"
-    //% blockGap=8 shim=edgeserial::redirect
-    //% shim=edgeserial::redirect
-    export function redirect(tx: EdgeSerialPin, rx: EdgeSerialPin, rate: EdgeBaudRate): void { return; }
+    //% blockGap=8 shim=extraserial::redirect
+    //% shim=extraserial::redirect
+    export function redirect(tx: ExtraSerialPin, rx: ExtraSerialPin, rate: ExtraBaudRate): void { return; }
 
     /**
     * Set the baud rate of the serial port
      */
     //% weight=10
-    //% blockId=edgeserial_setbaudrate block="serial|set baud rate %rate"
+    //% blockId=extraserial_setbaudrate block="serial|set baud rate %rate"
     //% blockGap=8 inlineInputMode=inline
     //% help=serial/set-baud-rate
-    //% group="Configuration" advanced=true shim=edgeserial::setBaudRate
-    //% shim=edgeserial::setBaudRate
-    export function setBaudRate(rate: EdgeBaudRate): void { return; };
+    //% group="Configuration" advanced=true shim=extraserial::setBaudRate
+    //% shim=extraserial::setBaudRate
+    export function setBaudRate(rate: ExtraBaudRate): void { return; };
 
     /**
      * Sets the size of the RX buffer in bytes
      * @param size length of the rx buffer in bytes, eg: 32
      */
     //% help=serial/set-rx-buffer-size
-    //% blockId=edgeserialSetRxBufferSize block="serial set rx buffer size to $size"
-    //% advanced=true shim=edgeserial::setRxBufferSize
-    //% shim=edgeserial::setRxBufferSize
+    //% blockId=extraserialSetRxBufferSize block="serial set rx buffer size to $size"
+    //% advanced=true shim=extraserial::setRxBufferSize
+    //% shim=extraserial::setRxBufferSize
     export function setRxBufferSize(size: number): void { return; };
 
     /**
@@ -203,8 +203,8 @@ namespace edgeserial {
      * @param size length of the tx buffer in bytes, eg: 32
      */
     //% help=serial/set-tx-buffer-size
-    //% blockId=edgeserialSetTxBufferSize block="serial set tx buffer size to $size"
-    //% advanced=true shim=edgeserial::setTxBufferSize
-    //% shim=edgeserial::setTxBufferSize
+    //% blockId=extraserialSetTxBufferSize block="serial set tx buffer size to $size"
+    //% advanced=true shim=extraserial::setTxBufferSize
+    //% shim=extraserial::setTxBufferSize
     export function setTxBufferSize(size: number): void { return; };
 }

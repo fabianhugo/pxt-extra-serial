@@ -1,9 +1,9 @@
 ---
 layout: layouts/catalog-page
-title: Edge Serial Pin Enum
+title: Extra Serial Pin Enum
 ---
 
-## Enum `EdgeSerialPin`
+## Enum `ExtraSerialPin`
 
 Pin identifiers available for serial redirect.
 

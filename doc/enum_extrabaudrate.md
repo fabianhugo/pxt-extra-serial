@@ -1,9 +1,9 @@
 ---
 layout: layouts/catalog-page
-title: Edge Baud Rate Enum
+title: Extra Baud Rate Enum
 ---
 
-## Enum `EdgeBaudRate`
+## Enum `ExtraBaudRate`
 
 Supported serial baud rate values.
 

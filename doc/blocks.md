@@ -1,6 +1,6 @@
 ---
 layout: layouts/catalog-page
-title: Edge Serial Blocks Guide
+title: Extra Serial Blocks Guide
 ---
 
 ## Overview
@@ -36,5 +36,5 @@ Block images are not generated automatically in this pass. Use the placeholders 
 
 ## Next steps
 
-- TypeScript docs: [Edge Serial TypeScript Reference](../typescript/)
-- Full API map: [Edge Serial API Index](../api/)
+- TypeScript docs: [Extra Serial TypeScript Reference](../typescript/)
+- Full API map: [Extra Serial API Index](../api/)

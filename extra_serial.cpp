@@ -6,7 +6,7 @@
 
 #define MICROBIT_SERIAL_READ_BUFFER_LENGTH 64
 
-enum EdgeSerialPin {
+enum ExtraSerialPin {
     P0 = MICROBIT_ID_IO_P0,
     P1 = MICROBIT_ID_IO_P1,
     P2 = MICROBIT_ID_IO_P2,
@@ -24,7 +24,7 @@ enum EdgeSerialPin {
     
 };
 
-enum EdgeBaudRate {
+enum ExtraBaudRate {
   //% block=115200
   BaudRate115200 = 115200,
   //% block=57600
@@ -49,17 +49,17 @@ enum EdgeBaudRate {
   BaudRate1200 = 1200
 };
 
-namespace edgeserial {
+namespace extraserial {
 #if MICROBIT_CODAL
-    NRF52Serial * edgeSerial = NULL;
+    NRF52Serial * extraSerial = NULL;
     void checkSerialPort() {
-        if( edgeSerial != NULL )
+        if( extraSerial != NULL )
             return;
         
-        edgeSerial = new NRF52Serial( uBit.io.P0, uBit.io.P1, NRF_UARTE1 );
+        extraSerial = new NRF52Serial( uBit.io.P0, uBit.io.P1, NRF_UARTE1 );
         // own event bus ID, otherwise our events collide with uBit.serial (DEVICE_ID_SERIAL)
-        edgeSerial->id = CodalComponent::generateDynamicID();
-        edgeSerial->setBaud( 9600 );
+        extraSerial->id = CodalComponent::generateDynamicID();
+        extraSerial->setBaud( 9600 );
     }
 #endif
 
@@ -69,7 +69,7 @@ namespace edgeserial {
     String readUntil(String delimiter) {
         #if MICROBIT_CODAL
             checkSerialPort();
-            return PSTR(edgeSerial->readUntil(MSTR(delimiter)));
+            return PSTR(extraSerial->readUntil(MSTR(delimiter)));
         #else
             return mkString("", 0);
         #endif
@@ -79,10 +79,10 @@ namespace edgeserial {
     void onDataReceived(String delimiters, Action body) {
         #if MICROBIT_CODAL
             checkSerialPort();
-            edgeSerial->eventOn(MSTR(delimiters));
-            registerWithDal(edgeSerial->id, MICROBIT_SERIAL_EVT_DELIM_MATCH, body);
+            extraSerial->eventOn(MSTR(delimiters));
+            registerWithDal(extraSerial->id, MICROBIT_SERIAL_EVT_DELIM_MATCH, body);
             // lazy initialization of serial buffers
-            edgeSerial->read(MicroBitSerialMode::ASYNC);
+            extraSerial->read(MicroBitSerialMode::ASYNC);
         #endif
     }
 
@@ -90,10 +90,10 @@ namespace edgeserial {
     String readString() {
         #if MICROBIT_CODAL
             checkSerialPort();
-            int n = edgeSerial->getRxBufferSize();
+            int n = extraSerial->getRxBufferSize();
             if (n == 0)
                 return mkString("", 0);
-            return PSTR(edgeSerial->read(n, MicroBitSerialMode::ASYNC));
+            return PSTR(extraSerial->read(n, MicroBitSerialMode::ASYNC));
         #else
             return mkString("", 0);
         #endif
@@ -108,7 +108,7 @@ namespace edgeserial {
             if (!text)
                 return;
 
-            edgeSerial->send(MSTR(text));
+            extraSerial->send(MSTR(text));
         #endif
     }
 
@@ -119,7 +119,7 @@ namespace edgeserial {
             if (!buffer)
                 return;
 
-            edgeSerial->send(buffer->data, buffer->length);
+            extraSerial->send(buffer->data, buffer->length);
         #endif
     }
 
@@ -129,14 +129,14 @@ namespace edgeserial {
             checkSerialPort();
             auto mode = SYNC_SLEEP;
             if (length <= 0) {
-                length = edgeSerial->getRxBufferSize();
+                length = extraSerial->getRxBufferSize();
                 mode = ASYNC;
             }
 
             auto buf = mkBuffer(NULL, length);
             auto res = buf;
             registerGCObj(buf); // make sure buffer is pinned, while we wait for data
-            int read = edgeSerial->read(buf->data, buf->length, mode);
+            int read = extraSerial->read(buf->data, buf->length, mode);
             if (read != length) {
                 res = mkBuffer(buf->data, read);
             }
@@ -149,7 +149,7 @@ namespace edgeserial {
     }
 
     //% 
-    bool tryResolvePin(EdgeSerialPin p, PinName& name) {
+    bool tryResolvePin(ExtraSerialPin p, PinName& name) {
         auto pin = getPin(p); 
         if (NULL != pin) {
             name = (PinName)pin->name;
@@ -159,21 +159,21 @@ namespace edgeserial {
     }
 
     //%
-    void redirect(EdgeSerialPin tx, EdgeSerialPin rx, EdgeBaudRate rate) {
+    void redirect(ExtraSerialPin tx, ExtraSerialPin rx, ExtraBaudRate rate) {
         #if MICROBIT_CODAL
             checkSerialPort();
             if (getPin(tx) && getPin(rx)) {
-                edgeSerial->redirect(*getPin(tx), *getPin(rx));
+                extraSerial->redirect(*getPin(tx), *getPin(rx));
             }
-            edgeSerial->setBaud(rate);
+            extraSerial->setBaud(rate);
         #endif
     }
 
     //%
-    void setBaudRate(EdgeBaudRate rate) {
+    void setBaudRate(ExtraBaudRate rate) {
         #if MICROBIT_CODAL
             checkSerialPort();
-            edgeSerial->setBaud(rate);
+            extraSerial->setBaud(rate);
         #endif
     }
 
@@ -181,7 +181,7 @@ namespace edgeserial {
     void setRxBufferSize(uint8_t size) {
         #if MICROBIT_CODAL
             checkSerialPort();
-            edgeSerial->setRxBufferSize(size);
+            extraSerial->setRxBufferSize(size);
         #endif
     }
 
@@ -189,7 +189,7 @@ namespace edgeserial {
     void setTxBufferSize(uint8_t size) {
         #if MICROBIT_CODAL
             checkSerialPort();
-            edgeSerial->setTxBufferSize(size);
+            extraSerial->setTxBufferSize(size);
         #endif
     }
 }
