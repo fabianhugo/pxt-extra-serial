@@ -1,1 +1,10 @@
-// tests go here; this will not be compiled when this package is used as an extension.
+serial.setRxBufferSize(128)
+edgeserial.setRxBufferSize(128)
+edgeserial.redirect(EdgeSerialPin.A1_TX, EdgeSerialPin.A1_RX, EdgeBaudRate.BaudRate115200)
+basic.forever(function () {
+    let fromUsb = serial.readBuffer(0)
+    if (fromUsb.length > 0) edgeserial.writeBuffer(fromUsb)
+    let fromEdge = edgeserial.readBuffer(0)
+    if (fromEdge.length > 0) serial.writeBuffer(fromEdge)
+    basic.pause(1)
+})

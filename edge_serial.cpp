@@ -57,6 +57,8 @@ namespace edgeserial {
             return;
         
         edgeSerial = new NRF52Serial( uBit.io.P0, uBit.io.P1, NRF_UARTE1 );
+        // own event bus ID, otherwise our events collide with uBit.serial (DEVICE_ID_SERIAL)
+        edgeSerial->id = CodalComponent::generateDynamicID();
         edgeSerial->setBaud( 9600 );
     }
 #endif
@@ -78,7 +80,7 @@ namespace edgeserial {
         #if MICROBIT_CODAL
             checkSerialPort();
             edgeSerial->eventOn(MSTR(delimiters));
-            registerWithDal(MICROBIT_ID_SERIAL, MICROBIT_SERIAL_EVT_DELIM_MATCH, body);
+            registerWithDal(edgeSerial->id, MICROBIT_SERIAL_EVT_DELIM_MATCH, body);
             // lazy initialization of serial buffers
             edgeSerial->read(MicroBitSerialMode::ASYNC);
         #endif
@@ -99,9 +101,7 @@ namespace edgeserial {
 
 
 
-    /**
-     * Send a piece of text through the serial connection.
-     */
+    //%
     void writeString(String text) {
         #if MICROBIT_CODAL
             checkSerialPort();

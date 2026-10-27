@@ -31,11 +31,14 @@ namespace edgeserial {
         edgeserial.writeString(NEW_LINE);
     }
 
+    /**
+     * Send a piece of text through the serial connection.
+     */
     //% help=serial/write-string
     //% weight=87 blockGap=8
     //% blockId=edgeserial_writestring block="serial|write string %text"
     //% text.shadowOptions.toString=true
-    //% shim=edgeserial.writeString
+    //% shim=edgeserial::writeString
     export function writeString(data: string): void {
         return; // Simulator dummy shim
     }
@@ -149,10 +152,18 @@ namespace edgeserial {
     export function readBuffer(length: number): Buffer { return Buffer.create(0); }
 
     /**
+     * Send a buffer through serial connection
+     */
+    //% blockId=edgeserial_writebuffer block="serial|write buffer %buffer=edgeserial_readbuffer"
+    //% help=serial/write-buffer advanced=true weight=6
+    //% shim=edgeserial::writeBuffer
+    export function writeBuffer(buffer: Buffer): void { return; }
+
+    /**
      * Set the serial input and output to use pins instead of the USB connection.
      * @param tx the new transmission pin, eg: EdgeSerialPin.P0
      * @param rx the new reception pin, eg: EdgeSerialPin.P1
-     * @param rate the new baud rate. eg: 115200
+     * @param rate the new baud rate. eg: EdgeBaudRate.BaudRate115200
      */
     //% weight=10
     //% help=serial/connect
