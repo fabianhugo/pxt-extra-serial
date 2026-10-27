@@ -4,6 +4,7 @@
     "dependencies": {
         "core": "*",
         "radio": "*",
+        "v3": "*",
         "microphone": "*"
     },
     "files": [
