@@ -15,7 +15,9 @@
     A1_RX = 116,  // MICROBIT_ID_IO_A1_RX
     A1_TX = 117,  // MICROBIT_ID_IO_A1_TX
     A0_SCL = 119,  // MICROBIT_ID_IO_A0_SCL
-    A1_SCL = 120,  // MICROBIT_ID_IO_A0_SDA
+    A0_SDA = 120,  // MICROBIT_ID_IO_A0_SDA
+    USB_TX = 1001,
+    USB_RX = 1002,
 
     }
 

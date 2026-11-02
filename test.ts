@@ -1,10 +1,12 @@
-serial.setRxBufferSize(128)
 extraserial.setRxBufferSize(128)
-extraserial.redirect(ExtraSerialPin.A1_TX, ExtraSerialPin.A1_RX, ExtraBaudRate.BaudRate115200)
+extraserial.setWriteLinePadding(0)
+extraserial.redirect(ExtraSerialPin.A1_RX, ExtraSerialPin.A1_TX, ExtraBaudRate.BaudRate115200)
+input.onButtonEvent(Button.A, input.buttonEventClick(), function () {
+    extraserial.writeLine("testesr")
+})
 basic.forever(function () {
-    let fromUsb = serial.readBuffer(0)
-    if (fromUsb.length > 0) extraserial.writeBuffer(fromUsb)
-    let fromExtra = extraserial.readBuffer(0)
-    if (fromExtra.length > 0) serial.writeBuffer(fromExtra)
-    basic.pause(1)
+    let b = extraserial.readBuffer(0)
+    if (b.length > 0) serial.writeLine(control.millis() + " " + b.toHex())
+    
+    basic.pause(5)
 })

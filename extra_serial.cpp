@@ -20,8 +20,11 @@ enum ExtraSerialPin {
     A1_RX = MICROBIT_ID_IO_A1_RX,
     A1_TX = MICROBIT_ID_IO_A1_TX,
     A0_SCL = MICROBIT_ID_IO_A0_SCL,
-    A1_SCL = MICROBIT_ID_IO_A0_SDA
-    
+    A0_SDA = MICROBIT_ID_IO_A0_SDA,
+    // The USB interface chip's UART pins. Not known to getPin, resolved in
+    // resolvePin. Only usable while uBit.serial is redirected elsewhere.
+    USB_TX = 1001,
+    USB_RX = 1002
 };
 
 enum ExtraBaudRate {
@@ -148,9 +151,17 @@ namespace extraserial {
         #endif
     }
 
-    //% 
+    MicroBitPin *resolvePin(ExtraSerialPin p) {
+        #if MICROBIT_CODAL
+            if (p == ExtraSerialPin::USB_TX) return &uBit.io.usbTx;
+            if (p == ExtraSerialPin::USB_RX) return &uBit.io.usbRx;
+        #endif
+        return getPin(p);
+    }
+
+    //%
     bool tryResolvePin(ExtraSerialPin p, PinName& name) {
-        auto pin = getPin(p); 
+        auto pin = resolvePin(p);
         if (NULL != pin) {
             name = (PinName)pin->name;
             return true;
@@ -162,8 +173,10 @@ namespace extraserial {
     void redirect(ExtraSerialPin tx, ExtraSerialPin rx, ExtraBaudRate rate) {
         #if MICROBIT_CODAL
             checkSerialPort();
-            if (getPin(tx) && getPin(rx)) {
-                extraSerial->redirect(*getPin(tx), *getPin(rx));
+            auto txPin = resolvePin(tx);
+            auto rxPin = resolvePin(rx);
+            if (txPin && rxPin) {
+                extraSerial->redirect(*txPin, *rxPin);
             }
             extraSerial->setBaud(rate);
         #endif
